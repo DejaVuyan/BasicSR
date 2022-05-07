@@ -84,7 +84,7 @@ class RRDBNet(nn.Module):
         num_grow_ch (int): Channels for each growth. Default: 32.
     """
 
-    def __init__(self, num_in_ch, num_out_ch, scale=4, num_feat=64, num_block=23, num_grow_ch=32):
+    def __init__(self, num_in_ch, num_out_ch, scale=1, num_feat=64, num_block=23, num_grow_ch=32):
         super(RRDBNet, self).__init__()
         self.scale = scale
         if scale == 2:
@@ -103,12 +103,14 @@ class RRDBNet(nn.Module):
         self.lrelu = nn.LeakyReLU(negative_slope=0.2, inplace=True)
 
     def forward(self, x):
+        # print('x shape is {}'.format(x.shape))
         if self.scale == 2:
             feat = pixel_unshuffle(x, scale=2)
         elif self.scale == 1:
             feat = pixel_unshuffle(x, scale=4)
         else:
             feat = x
+        # print('feat shape is {}'.format(feat.shape))
         feat = self.conv_first(feat)
         body_feat = self.conv_body(self.body(feat))
         feat = feat + body_feat
