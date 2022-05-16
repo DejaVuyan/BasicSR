@@ -32,12 +32,14 @@ class EDSR(nn.Module):
                  num_out_ch,
                  num_feat=64,
                  num_block=16,
-                 upscale=4,
+                 upscale=1,  # 4
                  res_scale=1,
                  img_range=255.,
                  rgb_mean=(0.4488, 0.4371, 0.4040)):
         super(EDSR, self).__init__()
-
+        # print('upscale is {}'.format(upscale))
+        upscale = 1
+        # upscale在这个地方被覆盖了，在config文件中传进来的scale好像没有用的感觉，有时间去提一个issue
         self.img_range = img_range
         self.mean = torch.Tensor(rgb_mean).view(1, 3, 1, 1)
 
@@ -48,6 +50,7 @@ class EDSR(nn.Module):
         self.conv_last = nn.Conv2d(num_feat, num_out_ch, 3, 1, 1)
 
     def forward(self, x):
+        # print('x shape is {}'.format(x.shape))
         self.mean = self.mean.type_as(x)
 
         x = (x - self.mean) * self.img_range
@@ -57,5 +60,5 @@ class EDSR(nn.Module):
 
         x = self.conv_last(self.upsample(res))
         x = x / self.img_range + self.mean
-
+        # print('super resolution shape is {}'.format(x.shape))
         return x

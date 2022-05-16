@@ -1,5 +1,5 @@
 # general settings
-name: 002_ESRGAN_hcp_2000k_B16G1_wandb
+name: 005_ESRGAN_hcp_80000_B16G1_wandb
 model_type: ESRGANModel
 scale: 1
 num_gpu: 1 # set num_gpu: 0 for cpu mode
@@ -10,8 +10,8 @@ datasets:
   train:
     name: DIV2K
     type: PairedImageDataset
-    dataroot_gt: /data/yuzun/MRI_data/hcp/hcp_kspace/images/UnetD7/train/images
-    dataroot_lq: /data/yuzun/MRI_data/hcp/hcp_kspace/images/UnetD7/train/LR_image
+    dataroot_gt: /home/yuzun/dataset/hcp_all/A/train
+    dataroot_lq: /home/yuzun/dataset/hcp_all/LR/train
     # (for lmdb)
     # dataroot_gt: datasets/DIV2K/DIV2K_train_HR_sub.lmdb
     # dataroot_lq: datasets/DIV2K/DIV2K_train_LR_bicubic_X4_sub.lmdb
@@ -29,14 +29,14 @@ datasets:
     use_shuffle: true
     num_worker_per_gpu: 6
     batch_size_per_gpu: 40
-    dataset_enlarge_ratio: 100
+    dataset_enlarge_ratio: 1
     prefetch_mode: ~
 
   val:
     name: DIV2K
     type: PairedImageDataset
-    dataroot_gt: /data/yuzun/MRI_data/hcp/hcp_kspace/images/UnetD7/val/images
-    dataroot_lq: /data/yuzun/MRI_data/hcp/hcp_kspace/images/UnetD7/val/LR_images
+    dataroot_gt: /home/yuzun/dataset/hcp_all/A/val
+    dataroot_lq: /home/yuzun/dataset/hcp_all/LR/val
     io_backend:
       type: disk
 
@@ -55,7 +55,7 @@ network_d:
 
 # path
 path:
-  pretrain_network_g: experiments/050_RRDBNet_PSNR_x4_f64b23_DIV2K_1000k_B16G1_wandb_5_2/models/net_g_60000.pth
+  pretrain_network_g: /home/yuzun/project/BasicSR/experiments/003_RRDBNet_PSNR_hcp_200000k_B16G1_wandb/models/net_g_196000.pth
   strict_load_g: true
   resume_state: ~
 
@@ -78,7 +78,7 @@ train:
     milestones: [50000, 100000, 200000, 300000]
     gamma: 0.5
 
-  total_iter: 100000
+  total_iter: 80000
   warmup_iter: -1  # no warm up
 
   # losses
@@ -124,7 +124,7 @@ logger:
   use_tb_logger: true
   wandb:
     project: basicsr
-    resume_id: 002_ESRGAN_hcp_2000k_B16G1_wandb
+    resume_id:
 
 # dist training settings
 dist_params:
