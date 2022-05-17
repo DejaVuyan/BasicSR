@@ -1,5 +1,5 @@
 # general settings
-name: 001_RRDBNet_PSNR_hcp_2000k_B16G1_wandb
+name: 007_RRDBNet_PSNR_U-net_hcp_2000k_B16G1_wandb
 model_type: SRModel
 scale: 1
 num_gpu: 1  # set num_gpu: 0 for cpu mode
@@ -8,10 +8,10 @@ manual_seed: 0
 # dataset and data loader settings
 datasets:
   train:
-    name: DIV2K
+    name: hcp
     type: PairedImageDataset
-    dataroot_gt: /data/yuzun/MRI_data/hcp/hcp_kspace/images/UnetD7/train/images
-    dataroot_lq: /data/yuzun/MRI_data/hcp/hcp_kspace/images/UnetD7/train/LR_image
+    dataroot_gt: /data/yuzun/MRI_data/hcp_all/A/train
+    dataroot_lq: /data/yuzun/MRI_data/hcp_all/LR/train
     # (for lmdb)
     # dataroot_gt: datasets/DIV2K/DIV2K_train_HR_sub.lmdb
     # dataroot_lq: datasets/DIV2K/DIV2K_train_LR_bicubic_X4_sub.lmdb
@@ -29,14 +29,14 @@ datasets:
     use_shuffle: true
     num_worker_per_gpu: 6
     batch_size_per_gpu: 50
-    dataset_enlarge_ratio: 100
+    dataset_enlarge_ratio: 1
     prefetch_mode: ~
 
   val:
-    name: DIV2K
+    name: hcp
     type: PairedImageDataset
-    dataroot_gt: /data/yuzun/MRI_data/hcp/hcp_kspace/images/UnetD7/val/images
-    dataroot_lq: /data/yuzun/MRI_data/hcp/hcp_kspace/images/UnetD7/val/LR_images
+    dataroot_gt: /data/yuzun/MRI_data/hcp_all/A/val
+    dataroot_lq: /data/yuzun/MRI_data/hcp_all/LR/val
     io_backend:
       type: disk
 
@@ -87,7 +87,7 @@ val:
   metrics:
     psnr: # metric name, can be arbitrary
       type: calculate_psnr
-      crop_border: 4
+      crop_border: 0
       test_y_channel: false
 
 # logging settings
