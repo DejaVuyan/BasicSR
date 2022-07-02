@@ -1,5 +1,5 @@
 # general settings
-name: 201_AUnetESRGAN_
+name: 203_AUnetESRGAN_4x
 model_type: ESRGANModel
 scale: 1
 num_gpu: 1 # set num_gpu: 0 for cpu mode
@@ -11,7 +11,7 @@ datasets:
     name: DIV2K
     type: PairedImageDataset
     dataroot_gt: /home/yuzun/dataset/hcp_all/A/train
-    dataroot_lq: /home/yuzun/dataset/hcp_all/LR/train
+    dataroot_lq: /home/yuzun/dataset/hcp_all/4x_LR/train
     # (for lmdb)
     # dataroot_gt: datasets/DIV2K/DIV2K_train_HR_sub.lmdb
     # dataroot_lq: datasets/DIV2K/DIV2K_train_LR_bicubic_X4_sub.lmdb
@@ -36,7 +36,7 @@ datasets:
     name: DIV2K
     type: PairedImageDataset
     dataroot_gt: /home/yuzun/dataset/hcp_all/A/val
-    dataroot_lq: /home/yuzun/dataset/hcp_all/LR/val
+    dataroot_lq: /home/yuzun/dataset/hcp_all/4x_LR/val/
     io_backend:
       type: disk
 
@@ -55,7 +55,7 @@ network_d:
 
 # path
 path:
-  pretrain_network_g: /home/yuzun/project/BasicSR/experiments/003_RRDBNet_PSNR_hcp_200000k_B16G1_wandb/models/net_g_196000.pth
+  pretrain_network_g: /home/yuzun/project/BasicSR/experiments/007_4x_RRDBNet_PSNR_hcp_200000k_B16G1_wandb/models/net_g_148000.pth
 #  pretrain_network_g:
   strict_load_g: true
   resume_state: ~

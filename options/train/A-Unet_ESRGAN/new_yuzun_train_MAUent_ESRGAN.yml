@@ -1,12 +1,8 @@
-# Modified SRResNet w/o BN from:
-# Photo-Realistic Single Image Super-Resolution Using a Generative Adversarial Network
-# Use perceptual loss before ReLU as ESRGAN does
-
 # general settings
-name: 301_MSRGAN_f64b16_hcp_400k_B16G1_wandb
-model_type: SRGANModel
+name: 204_4x_MAUnetESRGAN
+model_type: AESRGANModel
 scale: 1
-num_gpu: 1  # set num_gpu: 0 for cpu mode
+num_gpu: 1 # set num_gpu: 0 for cpu mode
 manual_seed: 0
 
 # dataset and data loader settings
@@ -46,21 +42,21 @@ datasets:
 
 # network structures
 network_g:
-  type: MSRResNet
+  type: RRDBNet
   num_in_ch: 3
   num_out_ch: 3
   num_feat: 64
-  num_block: 16
-  upscale: 1
+  num_block: 23
 
 network_d:
-  type: VGGStyleDiscriminator
+  type: multiscale
   num_in_ch: 3
   num_feat: 64
 
 # path
 path:
-  pretrain_network_g: ~
+  pretrain_network_g: /home/yuzun/project/BasicSR/experiments/007_4x_RRDBNet_PSNR_hcp_200000k_B16G1_wandb/models/net_g_148000.pth
+#  pretrain_network_g:
   strict_load_g: true
   resume_state: ~
 
@@ -83,7 +79,7 @@ train:
     milestones: [50000, 100000, 200000, 300000]
     gamma: 0.5
 
-  total_iter: 400000
+  total_iter: 100000
   warmup_iter: -1  # no warm up
 
   # losses
@@ -119,17 +115,17 @@ val:
   metrics:
     psnr: # metric name, can be arbitrary
       type: calculate_psnr
-      crop_border: 0
+      crop_border: 4
       test_y_channel: false
 
 # logging settings
 logger:
   print_freq: 100
-  save_checkpoint_freq: !!float 5e3
+  save_checkpoint_freq: !!float 1e3
   use_tb_logger: true
   wandb:
     project: basicsr
-    resume_id: ~
+    resume_id:
 
 # dist training settings
 dist_params:

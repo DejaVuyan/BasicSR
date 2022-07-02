@@ -27,6 +27,7 @@ class SRModel(BaseModel):
         load_path = self.opt['path'].get('pretrain_network_g', None)
         if load_path is not None:
             param_key = self.opt['path'].get('param_key_g', 'params')
+            # param_key = self.opt['path'].get('param_key_g', 'params_ema')
             self.load_network(self.net_g, load_path, self.opt['path'].get('strict_load_g', True), param_key)
 
         if self.is_train:
@@ -115,8 +116,8 @@ class SRModel(BaseModel):
 
         self.log_dict = self.reduce_loss_dict(loss_dict)
 
-        if self.ema_decay > 0:
-            self.model_ema(decay=self.ema_decay)
+        # if self.ema_decay > 0:
+        self.model_ema(decay=self.ema_decay)
 
     def test(self):
         if hasattr(self, 'net_g_ema'):

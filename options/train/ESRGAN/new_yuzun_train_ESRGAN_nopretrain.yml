@@ -1,12 +1,8 @@
-# Modified SRResNet w/o BN from:
-# Photo-Realistic Single Image Super-Resolution Using a Generative Adversarial Network
-# Use perceptual loss before ReLU as ESRGAN does
-
 # general settings
-name: 301_MSRGAN_f64b16_hcp_400k_B16G1_wandb
-model_type: SRGANModel
+name: 512_Stytr_ESRGAN_nopretrained
+model_type: ESRGANModel
 scale: 1
-num_gpu: 1  # set num_gpu: 0 for cpu mode
+num_gpu: 1 # set num_gpu: 0 for cpu mode
 manual_seed: 0
 
 # dataset and data loader settings
@@ -14,8 +10,8 @@ datasets:
   train:
     name: DIV2K
     type: PairedImageDataset
-    dataroot_gt: /home/yuzun/dataset/hcp_all/A/train
-    dataroot_lq: /home/yuzun/dataset/hcp_all/LR/train
+    dataroot_gt: /data2/yuzun/flip_hcpall/train
+    dataroot_lq: /data2/yuzun/StyTR_LR/train
     # (for lmdb)
     # dataroot_gt: datasets/DIV2K/DIV2K_train_HR_sub.lmdb
     # dataroot_lq: datasets/DIV2K/DIV2K_train_LR_bicubic_X4_sub.lmdb
@@ -31,27 +27,26 @@ datasets:
 
     # data loader
     use_shuffle: true
-    num_worker_per_gpu: 6
-    batch_size_per_gpu: 50
+    num_worker_per_gpu: 8
+    batch_size_per_gpu: 20
     dataset_enlarge_ratio: 1
     prefetch_mode: ~
 
   val:
     name: DIV2K
     type: PairedImageDataset
-    dataroot_gt: /home/yuzun/dataset/hcp_all/A/val
-    dataroot_lq: /home/yuzun/dataset/hcp_all/LR/val
+    dataroot_gt: /data2/yuzun/flip_hcpall/val
+    dataroot_lq: /data2/yuzun/StyTR_LR/val
     io_backend:
       type: disk
 
 # network structures
 network_g:
-  type: MSRResNet
+  type: RRDBNet
   num_in_ch: 3
   num_out_ch: 3
   num_feat: 64
-  num_block: 16
-  upscale: 1
+  num_block: 23
 
 network_d:
   type: VGGStyleDiscriminator
@@ -60,7 +55,8 @@ network_d:
 
 # path
 path:
-  pretrain_network_g: ~
+  pretrain_network_g: #/home/yuzun/project/BasicSR/experiments/510_RRDBNet_Stytr_hcp_200000k_B16G1_wandb/models/net_g_50000.pth
+#  pretrain_network_g:
   strict_load_g: true
   resume_state: ~
 
@@ -83,7 +79,7 @@ train:
     milestones: [50000, 100000, 200000, 300000]
     gamma: 0.5
 
-  total_iter: 400000
+  total_iter: 80000
   warmup_iter: -1  # no warm up
 
   # losses
@@ -119,17 +115,17 @@ val:
   metrics:
     psnr: # metric name, can be arbitrary
       type: calculate_psnr
-      crop_border: 0
+      crop_border: 4
       test_y_channel: false
 
 # logging settings
 logger:
   print_freq: 100
-  save_checkpoint_freq: !!float 5e3
+  save_checkpoint_freq: !!float 1e3
   use_tb_logger: true
   wandb:
     project: basicsr
-    resume_id: ~
+    resume_id:
 
 # dist training settings
 dist_params:
