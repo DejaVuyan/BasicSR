@@ -38,7 +38,7 @@ class EDSR(nn.Module):
                  rgb_mean=(0.4488, 0.4371, 0.4040)):
         super(EDSR, self).__init__()
         # print('upscale is {}'.format(upscale))
-        upscale = 1
+        upscale = 2
         # upscale在这个地方被覆盖了，在config文件中传进来的scale好像没有用的感觉，有时间去提一个issue
         self.img_range = img_range
         self.mean = torch.Tensor(rgb_mean).view(1, 3, 1, 1)

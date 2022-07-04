@@ -1,4 +1,4 @@
-name: test_320_net_g_48000
+name: 514_Stytr_AUnet_x2_7_4test
 model_type: ESRGANModel
 scale: 1
 num_gpu: 1  # set num_gpu: 0 for cpu mode
@@ -12,28 +12,37 @@ datasets:
 #    dataroot_lq: /home/yuzun/dataset/hcp_all/4x_LR/val
 #    io_backend:
 #      type: disk
-  test_2:  # the 2nd test dataset
-    name: ADNI1_x
-    type: PairedImageDataset
-    dataroot_gt: /home/yuzun/dataset/ADNI1_x/A/test_128
-    dataroot_lq: /home/yuzun/dataset/ADNI1_x/A/test_128
-    io_backend:
-      type: disk
+#  test_2:  # the 2nd test dataset
+#    name: ADNI1_x
+#    type: PairedImageDataset
+#    dataroot_gt: /home/yuzun/dataset/ADNI1_x/A/test_128
+#    dataroot_lq: /home/yuzun/dataset/ADNI1_x/A/test_128
+#    io_backend:
+#      type: disk
+##
+#  test_3:
+#    name: ADNI3
+#    type: PairedImageDataset
+#    dataroot_gt: /home/yuzun/dataset/ADNI_unreged_T1img/A/test
+#    dataroot_lq: /home/yuzun/dataset/ADNI_unreged_T1img/A/test
+##    filename_tmpl: '{}x4'
+#    io_backend:
+#      type: disk
 #
-  test_3:
-    name: ADNI3
-    type: PairedImageDataset
-    dataroot_gt: /home/yuzun/dataset/ADNI_unreged_T1img/A/test
-    dataroot_lq: /home/yuzun/dataset/ADNI_unreged_T1img/A/test
-#    filename_tmpl: '{}x4'
-    io_backend:
-      type: disk
+#  test_4:
+#    name: ADNI1_test
+#    type: PairedImageDataset
+#    dataroot_gt: /home/yuzun/test
+#    dataroot_lq: /home/yuzun/test
+#    #    filename_tmpl: '{}x4'
+#    io_backend:
+#      type: disk
 
-  test_4:
-    name: ADNI1_test
+  test_5:
+    name: 7_4_test
     type: PairedImageDataset
-    dataroot_gt: /home/yuzun/test
-    dataroot_lq: /home/yuzun/test
+    dataroot_gt: /home/yuzun/dataset/ADNI1_x/A/7_4_test
+    dataroot_lq: /home/yuzun/dataset/ADNI1_x/A/7_4_test
     #    filename_tmpl: '{}x4'
     io_backend:
       type: disk
@@ -50,7 +59,8 @@ network_g:
 # path
 path:
 #  pretrain_network_g: experiments/005_ESRGAN_hcp_80000_B16G1_wandb/models/net_g_latest.pth
-  pretrain_network_g: /home/yuzun/project/BasicSR/experiments/512_Stytr_ESRGAN_nopretrained/models/net_g_latest.pth
+#  pretrain_network_g: /home/yuzun/project/BasicSR/experiments/512_Stytr_ESRGAN_nopretrained/models/net_g_latest.pth
+  pretrain_network_g: /home/yuzun/project/BasicSR/experiments/514_Stytr_AUnet_x2/models/net_g_5000.pth
   strict_load_g: true
 
 # validation settings
@@ -59,11 +69,11 @@ val:
   suffix: ~  # add suffix to saved images, if None, use exp name
 
   metrics:
-    psnr: # metric name, can be arbitrary
-      type: calculate_psnr
-      crop_border: 2
-      test_y_channel: false
-    ssim:
-      type: calculate_ssim
-      crop_border: 2
-      test_y_channel: false
+#    psnr: # metric name, can be arbitrary
+#      type: calculate_psnr
+#      crop_border: 2
+#      test_y_channel: false
+#    ssim:
+#      type: calculate_ssim
+#      crop_border: 2
+#      test_y_channel: false

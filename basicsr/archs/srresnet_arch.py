@@ -45,8 +45,7 @@ class MSRResNet(nn.Module):
         self.lrelu = nn.LeakyReLU(negative_slope=0.1, inplace=True)
 
         # initialization
-        # default_init_weights([self.conv_first, self.upconv1, self.conv_hr, self.conv_last], 0.1)
-        default_init_weights([self.conv_first,  self.conv_hr, self.conv_last], 0.1)
+        default_init_weights([self.conv_first, self.upconv1, self.conv_hr, self.conv_last], 0.1)
         if self.upscale == 4:
             default_init_weights(self.upconv2, 0.1)
 

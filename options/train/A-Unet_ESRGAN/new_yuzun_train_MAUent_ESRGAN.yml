@@ -1,7 +1,7 @@
 # general settings
-name: 204_4x_MAUnetESRGAN
+name: 514_Stytr_MAUnet_x2
 model_type: AESRGANModel
-scale: 1
+scale: 2
 num_gpu: 1 # set num_gpu: 0 for cpu mode
 manual_seed: 0
 
@@ -10,8 +10,8 @@ datasets:
   train:
     name: DIV2K
     type: PairedImageDataset
-    dataroot_gt: /home/yuzun/dataset/hcp_all/A/train
-    dataroot_lq: /home/yuzun/dataset/hcp_all/LR/train
+    dataroot_gt: /data2/yuzun/flip_hcpall/train
+    dataroot_lq: /data2/yuzun/StyTR_LR_160/train
     # (for lmdb)
     # dataroot_gt: datasets/DIV2K/DIV2K_train_HR_sub.lmdb
     # dataroot_lq: datasets/DIV2K/DIV2K_train_LR_bicubic_X4_sub.lmdb
@@ -35,8 +35,8 @@ datasets:
   val:
     name: DIV2K
     type: PairedImageDataset
-    dataroot_gt: /home/yuzun/dataset/hcp_all/A/val
-    dataroot_lq: /home/yuzun/dataset/hcp_all/LR/val
+    dataroot_gt: /home/yuzun/dataset/ADNI1_x/A/test
+    dataroot_lq: /home/yuzun/dataset/ADNI1_x/A/test
     io_backend:
       type: disk
 
@@ -55,7 +55,7 @@ network_d:
 
 # path
 path:
-  pretrain_network_g: /home/yuzun/project/BasicSR/experiments/007_4x_RRDBNet_PSNR_hcp_200000k_B16G1_wandb/models/net_g_148000.pth
+  pretrain_network_g: experiments/510_RRDBNet_Stytr_hcp_200000k_B16G1_wandb/models/net_g_latest.pth
 #  pretrain_network_g:
   strict_load_g: true
   resume_state: ~
