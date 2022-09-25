@@ -1,5 +1,5 @@
 # general settings
-name: 517_Stytr_kspace_AUnet_x2_per3
+name: 704_StytrSE10all_AUnet_x2
 model_type: ESRGANModel
 scale: 2
 num_gpu: 1 # set num_gpu: 0 for cpu mode
@@ -8,30 +8,35 @@ manual_seed: 0
 # dataset and data loader settings
 datasets:
   train:
-    name: Stytr_k
+    name: DIV2K
     type: PairedImageDataset
-    dataroot_gt: /data2/yuzun/flip_hcpall/train
-    dataroot_lq: /data2/yuzun/StyTR_kspace/train
+    dataroot_gt: /data/yuzun/SE_all_flip_2/train
+    dataroot_lq: /data/yuzun/Stytr_11_SE10all_out
+    # (for lmdb)
+    # dataroot_gt: datasets/DIV2K/DIV2K_train_HR_sub.lmdb
+    # dataroot_lq: datasets/DIV2K/DIV2K_train_LR_bicubic_X4_sub.lmdb
     filename_tmpl: '{}'
     io_backend:
       type: disk
+      # (for lmdb)
+      # type: lmdb
 
-    gt_size: 128
+    gt_size: 256
     use_hflip: true
     use_rot: true
 
     # data loader
     use_shuffle: true
     num_worker_per_gpu: 6
-    batch_size_per_gpu: 40
+    batch_size_per_gpu: 10
     dataset_enlarge_ratio: 1
     prefetch_mode: ~
 
   val:
-    name: ADNI1
+    name: DIV2K
     type: PairedImageDataset
-    dataroot_gt: /data2/yuzun/dataset/ADNI1_x/A/test
-    dataroot_lq: /data2/yuzun/dataset/ADNI1_x/A/test
+    dataroot_gt: /data/yuzun/ADNI1_x/A/test
+    dataroot_lq: /data/yuzun/ADNI1_x/A/test
     io_backend:
       type: disk
 
@@ -90,7 +95,7 @@ train:
     vgg_type: vgg19
     use_input_norm: true
     range_norm: false
-    perceptual_weight: 3.0
+    perceptual_weight: 1.0
     style_weight: 0
     criterion: l1
   gan_opt:
@@ -121,7 +126,7 @@ logger:
   use_tb_logger: true
   wandb:
     project: basicsr
-    resume_id:
+    resume_id: 
 
 # dist training settings
 dist_params:
